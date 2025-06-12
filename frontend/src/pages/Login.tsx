@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { isAxiosError } from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
+import { Container, Paper, Typography, TextField, Button, Box, Alert } from '@mui/material';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -34,33 +35,54 @@ const Login = () => {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '100px auto' }}>
-      <h2>Giriş Yap</h2>
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="E-posta"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        /><br /><br />
-        <input
-          type="password"
-          placeholder="Şifre"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        /><br /><br />
-        <button type="submit">Giriş</button>
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <p style={{ marginTop: '10px' }}>
-        Hesabınız yok mu?{' '}
-        <Link to="/register" style={{ color: 'blue', textDecoration: 'underline' }}>
-          Kayıt Olmak İçin Tıklayın
-        </Link>
-      </p>
-    </div>
+    <Container maxWidth="sm">
+      <Paper elevation={6} sx={{ padding: 4, borderRadius: 3, mt: 10 }}>
+        <Typography variant="h4" gutterBottom align="center">
+          Giriş Yap
+        </Typography>
+        <Box
+          component="form"
+          onSubmit={handleLogin}
+          sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+        >
+          <TextField
+            label="E-posta"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            fullWidth
+          />
+          <TextField
+            label="Şifre"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            fullWidth
+          />
+          {error && (
+            <Alert severity="error">{error}</Alert>
+          )}
+          <Button
+            type="submit"
+            variant="contained"
+            size="large"
+            sx={{ mt: 2 }}
+            fullWidth
+          >
+            Giriş Yap
+          </Button>
+        </Box>
+
+        <Typography align="center" sx={{ mt: 2 }}>
+          Hesabınız yok mu?{' '}
+          <Link to="/register" style={{ color: '#1976d2', textDecoration: 'underline' }}>
+            Kayıt Olmak İçin Tıklayın
+          </Link>
+        </Typography>
+      </Paper>
+    </Container>
   );
 };
 

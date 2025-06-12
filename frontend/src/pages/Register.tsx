@@ -4,13 +4,22 @@ import { useNavigate } from 'react-router-dom';
 import { isAxiosError } from 'axios';
 import { Link } from 'react-router-dom';
 
+import {
+  Container,
+  Paper,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Alert
+} from '@mui/material';
+
 const Register = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isAdmin, setIsAdmin] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
@@ -26,8 +35,7 @@ const Register = () => {
         last_name: lastName,
         birth_date: birthDate,
         email,
-        password,
-        role: isAdmin ? 'admin' : 'student'
+        password
       });
 
       // ✅ Başarı mesajı göster, 1.5 saniye sonra login sayfasına yönlendir
@@ -45,71 +53,80 @@ const Register = () => {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '100px auto' }}>
-      <h2>Kayıt Ol</h2>
-      <form onSubmit={handleRegister}>
-        <input
-          type="text"
-          placeholder="Ad"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          required
-        /><br /><br />
-
-        <input
-          type="text"
-          placeholder="Soyad"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          required
-        /><br /><br />
-
-        <input
-          type="date"
-          placeholder="Doğum Tarihi"
-          value={birthDate}
-          onChange={(e) => setBirthDate(e.target.value)}
-          required
-        /><br /><br />
-
-        <input
-          type="email"
-          placeholder="E-posta"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        /><br /><br />
-
-        <input
-          type="password"
-          placeholder="Şifre"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        /><br /><br />
-
-        <label>
-          <input
-            type="checkbox"
-            checked={isAdmin}
-            onChange={(e) => setIsAdmin(e.target.checked)}
+    <Container maxWidth="sm">
+      <Paper elevation={6} sx={{ padding: 4, borderRadius: 3, mt: 10 }}>
+        <Typography variant="h4" gutterBottom align="center">
+          Kayıt Ol
+        </Typography>
+        <Box
+          component="form"
+          onSubmit={handleRegister}
+          sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+        >
+          <TextField
+            label="Ad"
+            type="text"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+            fullWidth
           />
-          Admin olarak kayıt ol
-        </label><br /><br />
-
-        <button type="submit">Kayıt Ol</button>
-      </form>
-
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>{success}</p>}
-
-      <p style={{ marginTop: '10px' }}>
-        Zaten bir hesabınız var mı?{' '}
-        <Link to="/" style={{ color: 'blue', textDecoration: 'underline' }}>
-          Giriş Yapmak İçin Tıklayın
-        </Link>
-      </p>
-    </div>
+          <TextField
+            label="Soyad"
+            type="text"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            required
+            fullWidth
+          />
+          <TextField
+            label="Doğum Tarihi"
+            type="date"
+            value={birthDate}
+            onChange={(e) => setBirthDate(e.target.value)}
+            required
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <TextField
+            label="E-posta"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            fullWidth
+          />
+          <TextField
+            label="Şifre"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            fullWidth
+          />
+          
+          <Button
+            type="submit"
+            variant="contained"
+            size="large"
+            sx={{ mt: 2 }}
+            fullWidth
+          >
+            Kayıt Ol
+          </Button>
+        </Box>
+        {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+        {success && <Alert severity="success" sx={{ mt: 2 }}>{success}</Alert>}
+        <Typography align="center" sx={{ mt: 2 }}>
+          Zaten bir hesabınız var mı?{' '}
+          <Link to="/" style={{ color: '#1976d2', textDecoration: 'underline' }}>
+            Giriş Yapmak İçin Tıklayın
+          </Link>
+        </Typography>
+      </Paper>
+    </Container>
   );
 };
 

@@ -2,6 +2,18 @@ import { useEffect, useState } from 'react';
 import customAxios from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 
+import {
+  Container,
+  Typography,
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  Alert,
+  Divider,
+  Box
+} from '@mui/material';
+
 interface Course {
   id: number;
   name: string;
@@ -69,37 +81,96 @@ const Dashboard = () => {
     myCourses.some((course) => course.id === courseId);
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>Hoş geldiniz, {user?.first_name}!</h2>
+    <Container maxWidth="md" sx={{ mt: 6 }}>
+      <Typography variant="h4" gutterBottom align="center">
+        Hoş geldiniz, {user?.first_name}!
+      </Typography>
 
-      <h3>Kayıtlı Derslerim</h3>
-      <ul>
-        {myCourses.map((course) => (
-          <li key={course.id}>
-            {course.name} - {course.description}{' '}
-            <button onClick={() => unenroll(course.id)}>Çık</button>
-          </li>
-        ))}
-      </ul>
+      {error && <Alert severity="error" sx={{ my: 2 }}>{error}</Alert>}
 
-      <hr />
+      {/* Kayıtlı Derslerim */}
+      <Typography variant="h5" gutterBottom sx={{ mt: 4 }}>
+        Kayıtlı Derslerim
+      </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 2,
+          mb: 3,
+        }}
+      >
+        {myCourses.length === 0 ? (
+          <Typography color="text.secondary" sx={{ mt: 1 }}>
+            Kayıtlı dersiniz yok.
+          </Typography>
+        ) : (
+          myCourses.map((course) => (
+            <Card key={course.id} sx={{ flex: '1 1 250px', minWidth: 220, maxWidth: 300 }}>
+              <CardContent>
+                <Typography variant="h6">{course.name}</Typography>
+                <Typography color="text.secondary">{course.description}</Typography>
+              </CardContent>
+              <CardActions>
+                <Button
+                  variant="contained"
+                  color="error"
+                  fullWidth
+                  onClick={() => unenroll(course.id)}
+                >
+                  Çık
+                </Button>
+              </CardActions>
+            </Card>
+          ))
+        )}
+      </Box>
 
-      <h3>Tüm Dersler</h3>
-      <ul>
-        {allCourses.map((course) => (
-          <li key={course.id}>
-            {course.name} - {course.description}{' '}
-            {isEnrolled(course.id) ? (
-              <span style={{ color: 'green' }}>Zaten kayıtlısın</span>
-            ) : (
-              <button onClick={() => enroll(course.id)}>Kayıt Ol</button>
-            )}
-          </li>
-        ))}
-      </ul>
+      <Divider sx={{ my: 4 }} />
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </div>
+      {/* Tüm Dersler */}
+      <Typography variant="h5" gutterBottom>
+        Tüm Dersler
+      </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 2,
+        }}
+      >
+        {allCourses.length === 0 ? (
+          <Typography color="text.secondary" sx={{ mt: 1 }}>
+            Hiç ders tanımlanmamış.
+          </Typography>
+        ) : (
+          allCourses.map((course) => (
+            <Card key={course.id} sx={{ flex: '1 1 250px', minWidth: 220, maxWidth: 300 }}>
+              <CardContent>
+                <Typography variant="h6">{course.name}</Typography>
+                <Typography color="text.secondary">{course.description}</Typography>
+              </CardContent>
+              <CardActions>
+                {isEnrolled(course.id) ? (
+                  <Button variant="outlined" disabled fullWidth color="success">
+                    Zaten kayıtlısın
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={() => enroll(course.id)}
+                  >
+                    Kayıt Ol
+                  </Button>
+                )}
+              </CardActions>
+            </Card>
+          ))
+        )}
+      </Box>
+    </Container>
   );
 };
 
