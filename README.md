@@ -19,12 +19,12 @@ Bu proje, **öğrenci ve ders yönetimi** sağlayan tam kapsamlı bir web uygula
 *** Kullanılan Teknolojiler
 
 - **Backend:** Node.js (Express.js)
-- **Frontend:** React.js (Vite veya CRA, projenize göre)
+- **Frontend:** React.js (Vite)
 - **Veritabanı:** PostgreSQL
 - **Kimlik Doğrulama:** JWT (JSON Web Token)
-- **Test:** Jest, Supertest
+- **Test:** Supertest
 - **Konteynerizasyon:** Docker, Docker Compose
-- **State Yönetimi:** Context API (veya Redux alternatifi)
+- **State Yönetimi:** Context API
 - **UI Kütüphanesi:** Material UI
 
 ---
@@ -88,7 +88,7 @@ Modal ve Pop-up Detay Sayfaları
 Material UI ile Modern ve Kullanıcı Dostu Arayüz
 Tüm API çağrıları için güvenli token doğrulaması
 Docker ile kolay ve hızlı başlatma
-Kapsamlı backend testleri (Jest & Supertest)
+Kapsamlı backend testleri (Supertest)
 
 
 *** Testler
